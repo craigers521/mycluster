@@ -14,6 +14,16 @@ spec:
                 name: truecharts
                 namespace: flux-system
     releaseName: sonarr
+    install:
+        createNamespace: true
+        remediate:
+            retries: 3
+    upgrade:
+        cleanupOnFail: true
+        remediation:
+          retries: 3
+    uninstall:
+        keepHistory: false
     values:
         TZ: America/Chicago
         credentials:

@@ -14,15 +14,18 @@ spec:
                 name: truecharts
                 namespace: flux-system
     releaseName: nzbget
+    install:
+        createNamespace: true
+        remediate:
+            retries: 3
+    upgrade:
+        cleanupOnFail: true
+        remediation:
+          retries: 3
+    uninstall:
+        keepHistory: false
     values:
         TZ: America/Chicago
-        addons:
-            codeserver:
-                enabled: false
-            netshoot:
-                enabled: false
-            vpn:
-                type: disabled
         credentials:
             cloudflare:
                 accessKey: "${R2ACCESSKEY}"
