@@ -1,0 +1,164 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+    name: jellyfin
+    namespace: jellyfin
+spec:
+    interval: 15m
+    chart:
+        spec:
+            chart: jellyfin
+            version: 19.1.11
+            sourceRef:
+                kind: HelmRepository
+                name: truecharts
+                namespace: flux-system
+    releaseName: jellyfin
+    values:
+        TZ: America/Chicago
+        addons:
+            codeserver:
+                enabled: false
+            netshoot:
+                enabled: false
+            vpn:
+                type: disabled
+        autodiscovery:
+            enabled: false
+        broadcastProxyImage:
+            pullPolicy: IfNotPresent
+            repository: docker.io/alpine/socat
+            tag: 1.8.0.0@sha256:242ddfab3d263db7c0b2f193dd53e0bea3b6cbc0984af7bc63998e4aa597d1a3
+        credentials:
+            cloudflare:
+                accessKey: "${R2ACCESSKEY}"
+                bucket: jellyfin
+                encrKey: "${R2ENCRKEY}"
+                name: cloudflare
+                path: ""
+                secretKey: "${R2SECRET}"
+                type: s3
+                url: "${R2URL}"
+        ingress:
+            main:
+                enabled: true
+                hosts:
+                    - host: jellyfin.craigers.haus
+                      paths:
+                        - path: /
+                          pathType: Prefix
+                ingressClassName: ""
+                integrations:
+                    certManager:
+                        certificateIssuer: cloudflare
+                        enabled: true
+                    homepage:
+                        enabled: false
+                    traefik:
+                        allowCors: false
+                        enabled: true
+                        entrypoints:
+                            - websecure
+        persistence:
+            cache:
+                enabled: true
+                mountPath: /cache
+                type: emptyDir
+            config:
+                enabled: true
+                mountPath: /config
+                readOnly: false
+                storageClass: ""
+                volsync:
+                    - credentials: cloudflare
+                      dest:
+                        enabled: false
+                      name: jellyfin-config
+                      src:
+                        enabled: true
+                      type: restic
+            transcode:
+                enabled: true
+                mountPath: /config/transcodes
+                readOnly: false
+                storageClass: ""
+            media:
+                enabled: true
+                type: nfs
+                mountPath: /media
+                path: /mnt/tank/media
+                server: "${TRUENAS_IP}"
+        release_name: jellyfin
+        resources: {}
+        securityContext:
+            container:
+                UMASK: "0022"
+                readOnlyRootFilesystem: false
+                runAsGroup: 568
+                runAsUser: 568
+            pod:
+                fsGroupChangePolicy: OnRootMismatch
+        service:
+            autodiscovery:
+                enabled: true
+                ports:
+                    autodiscovery:
+                        enabled: true
+                        port: 7359
+                        protocol: udp
+                        targetPort: 7359
+            main:
+                enabled: true
+                loadBalancerIP: ""
+                ports:
+                    main:
+                        port: 8096
+                        targetPort: 8096
+                type: LoadBalancer
+        updated: true
+        workload:
+            broadcastproxy:
+                enabled: false
+                podSpec:
+                    containers:
+                        broadcastproxy:
+                            args:
+                                - -c
+                                - export TARGET_IP=$(getent hosts '{{ printf "%v-autodiscovery" (include "tc.v1.common.lib.chart.names.fullname" $) }}' | awk '{ print $1 }') && [[ ! -z $TARGET_IP ]] && touch /tmp/healthy && socat UDP4-LISTEN:7359,fork,reuseaddr,rcvbuf=8096 UDP4-SENDTO:${TARGET_IP}:7359,rcvbuf=8096 ; rm -rf /tmp/healthy
+                            command:
+                                - /bin/sh
+                            enabled: true
+                            imageSelector: broadcastProxyImage
+                            primary: true
+                            probes:
+                                liveness:
+                                    command:
+                                        - cat
+                                        - /tmp/healthy
+                                    enabled: true
+                                    type: exec
+                                readiness:
+                                    command:
+                                        - cat
+                                        - /tmp/healthy
+                                    enabled: true
+                                    type: exec
+                                startup:
+                                    command:
+                                        - cat
+                                        - /tmp/healthy
+                                    enabled: true
+                                    type: exec
+                            securityContext:
+                                readOnlyRootFilesystem: true
+                    hostNetwork: true
+                    terminationGracePeriodSeconds: 3
+                type: DaemonSet
+            main:
+                podSpec:
+                    containers:
+                        main:
+                            env:
+                                JELLYFIN_PublishedServerUrl: '{{ $.Values.chartContext.appUrl }}'
+                replicas: 1
+                type: Deployment
