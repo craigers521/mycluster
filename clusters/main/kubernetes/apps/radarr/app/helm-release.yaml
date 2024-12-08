@@ -44,23 +44,17 @@ spec:
                       paths:
                         - path: /
                           pathType: Prefix
-                ingressClassName: ""
                 integrations:
                     certManager:
                         certificateIssuer: cloudflare
                         enabled: true
-                    homepage:
-                        enabled: false
                     traefik:
-                        allowCors: false
                         enabled: true
                         entrypoints:
                             - websecure
         persistence:
             config:
                 enabled: true
-                readOnly: false
-                storageClass: ""
                 volsync:
                     - credentials: cloudflare
                       dest:
