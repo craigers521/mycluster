@@ -63,7 +63,7 @@ spec:
                 volsync:
                     - credentials: cloudflare
                       dest:
-                        enabled: false
+                        enabled: true
                       name: jellyfin-config
                       src:
                         enabled: true

@@ -58,7 +58,7 @@ spec:
                 volsync:
                     - credentials: cloudflare
                       dest:
-                        enabled: false
+                        enabled: true
                       name: sonarr-config
                       src:
                         enabled: true

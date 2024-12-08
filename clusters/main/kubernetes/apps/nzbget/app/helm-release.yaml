@@ -59,7 +59,7 @@ spec:
                 volsync:
                     - credentials: cloudflare
                       dest:
-                        enabled: false
+                        enabled: true
                       name: nzbget-config
                       src:
                         enabled: true
