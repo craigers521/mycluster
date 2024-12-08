@@ -1,1 +1,1 @@
-# mycluster
+# talos cluster
