@@ -74,24 +74,3 @@ spec:
                 UMASK: "0022"
                 runAsGroup: 568
                 runAsUser: 568
-            pod:
-                fsGroupChangePolicy: OnRootMismatch
-        service:
-            main:
-                enabled: true
-                loadBalancerIP: ""
-                ports:
-                    main:
-                        port: 10241
-                type: LoadBalancer
-        workload:
-            main:
-                podSpec:
-                    containers:
-                        main:
-                            env:
-                                JELLYFIN_TYPE: ""
-                                LOG_LEVEL: info
-                                PORT: '{{ .Values.service.main.ports.main.port }}'
-                replicas: 1
-                type: Deployment

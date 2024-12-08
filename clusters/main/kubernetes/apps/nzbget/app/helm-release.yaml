@@ -87,28 +87,3 @@ spec:
                 UMASK: "0022"
                 runAsGroup: 568
                 runAsUser: 568
-            pod:
-                fsGroupChangePolicy: OnRootMismatch
-        service:
-            main:
-                enabled: true
-                loadBalancerIP: ""
-                ports:
-                    main:
-                        port: 10057
-                        targetPort: 6789
-                type: LoadBalancer
-        workload:
-            main:
-                podSpec:
-                    containers:
-                        main:
-                            probes:
-                                liveness:
-                                    enabled: false
-                                readiness:
-                                    enabled: false
-                                startup:
-                                    enabled: false
-                replicas: 1
-                type: Deployment
