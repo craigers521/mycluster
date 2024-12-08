@@ -83,10 +83,3 @@ spec:
                 path: /mnt/tank/media
                 server: "${TRUENAS_IP}"
                 type: nfs
-        release_name: nzbget
-        resources: {}
-        securityContext:
-            container:
-                UMASK: "0022"
-                runAsGroup: 568
-                runAsUser: 568

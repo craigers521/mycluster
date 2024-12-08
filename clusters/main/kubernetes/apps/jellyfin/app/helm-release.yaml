@@ -85,11 +85,3 @@ spec:
                 mountPath: /media
                 path: /mnt/tank/media
                 server: "${TRUENAS_IP}"
-        release_name: jellyfin
-        resources: {}
-        securityContext:
-            container:
-                UMASK: "0022"
-                readOnlyRootFilesystem: false
-                runAsGroup: 568
-                runAsUser: 568

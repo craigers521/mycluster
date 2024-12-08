@@ -70,10 +70,3 @@ spec:
                       src:
                         enabled: true
                       type: restic
-        release_name: jellyseerr
-        resources: {}
-        securityContext:
-            container:
-                UMASK: "0022"
-                runAsGroup: 568
-                runAsUser: 568
