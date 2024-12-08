@@ -16,7 +16,7 @@ spec:
     releaseName: radarr
     install:
         createNamespace: true
-        remediate:
+        remediation:
             retries: 3
     upgrade:
         cleanupOnFail: true

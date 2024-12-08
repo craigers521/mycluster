@@ -16,7 +16,7 @@ spec:
     releaseName: nzbget
     install:
         createNamespace: true
-        remediate:
+        remediation:
             retries: 3
     upgrade:
         cleanupOnFail: true
