@@ -77,3 +77,10 @@ spec:
                 mountPath: /media
                 path: /mnt/tank/media
                 server: "${TRUENAS_IP}"
+        resources:
+            limits:
+            nvidia.com/gpu: 1
+        workload:
+            main:
+            podSpec:
+                runtimeClassName: "nvidia"
