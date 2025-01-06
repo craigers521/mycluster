@@ -6,3 +6,5 @@ resources:
   - nzbget/ks.yaml
   - radarr/ks.yaml
   - sonarr/ks.yaml
+  - tachidesk/ks.yaml
+  - kavita/ks.yaml
