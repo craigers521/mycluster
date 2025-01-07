@@ -84,7 +84,3 @@ spec:
             main:
                 podSpec:
                     runtimeClassName: "nvidia"
-                    containers:
-                      main:
-                        env:
-                          NVIDIA_VISIBLE_DEVICES: all
