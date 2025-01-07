@@ -37,6 +37,6 @@ spec:
                 failRequestsGreaterThanOne: false
                 resources:
                   - name: nvidia.com/gpu
-                    replicas: 5
+                    replicas: 10
       gfd:
         enabled: true
