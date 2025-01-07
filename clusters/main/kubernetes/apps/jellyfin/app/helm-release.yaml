@@ -79,8 +79,8 @@ spec:
                 server: "${TRUENAS_IP}"
         resources:
             limits:
-            nvidia.com/gpu: 1
+                nvidia.com/gpu: 1
         workload:
             main:
-            podSpec:
-                runtimeClassName: "nvidia"
+                podSpec:
+                    runtimeClassName: "nvidia"
