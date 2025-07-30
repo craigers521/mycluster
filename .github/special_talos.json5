@@ -12,7 +12,7 @@
         "description": ["Block automerge for Kubelet and Talos version Minor"],
         "matchUpdateTypes": ["minor"],
         "automerge": false,
-        "matchPackageNames": ["ghcr.io/siderolabs/kubelet", "ghcr.io/siderolabs/installer"],
+        "matchPackageNames": ["ghcr.io/siderolabs/kubelet", "ghcr.io/siderolabs/installer", "helm.cilium.io"],
         "labels": ["type/minor", "system-upgrade"]
       },
       {
