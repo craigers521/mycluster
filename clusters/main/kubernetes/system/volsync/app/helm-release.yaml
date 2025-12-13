@@ -9,7 +9,7 @@ spec:
         spec:
 
             chart: volsync
-            version: 3.15.1
+            version: 3.15.2
             sourceRef:
                 kind: HelmRepository
                 name: truecharts
