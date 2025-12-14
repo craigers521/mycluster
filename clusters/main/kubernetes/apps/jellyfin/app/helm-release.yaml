@@ -74,9 +74,9 @@ spec:
         workload:
             main:
               podSpec:
-                  containers:
+                runtimeClassName: "nvidia"
+                containers:
                     main:
-                      env:
+                        env:
                         JELLYFIN_DATA_DIR: /config
                         JELLYFIN_CONFIG_DIR: /config/config
-                runtimeClassName: "nvidia"
