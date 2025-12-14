@@ -8,7 +8,7 @@ spec:
     chart:
         spec:
             chart: jellyfin
-            version: 21.12.9
+            version: 22.2.7
             sourceRef:
                 kind: HelmRepository
                 name: truecharts
@@ -74,4 +74,9 @@ spec:
         workload:
             main:
               podSpec:
+                  containers:
+                    main:
+                      env:
+                        JELLYFIN_DATA_DIR: /config
+                        JELLYFIN_CONFIG_DIR: /config/config
                 runtimeClassName: "nvidia"
